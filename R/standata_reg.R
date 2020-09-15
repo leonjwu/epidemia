@@ -60,7 +60,7 @@ standata_reg <- function(object, ...) {
   if (inherits(object, "epiobs_")) {
     
     # match family
-    ok_families <- c("poisson", "neg_binom", "quasi_poisson")
+    ok_families <- c("poisson", "neg_binom", "quasi_poisson", "normal")
     family <- which(pmatch(ok_families, object$family, nomatch=0L) == 1L)
     if (!length(family)) {
       stop("'family' must be one of ", paste(ok_families, collapse=", "))

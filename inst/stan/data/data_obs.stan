@@ -12,9 +12,9 @@ int<lower=0, upper=1> has_offset[R];
 vector[N_obs] offset_;
 
 // family for each observation type
-int<lower=1,upper=3> ofamily[R]; //1:poisson 2:neg_binom 3:quasi-poisson
+int<lower=1,upper=4> ofamily[R]; //1:poisson 2:neg_binom 3:quasi-poisson 4:normal
 int<lower=1,upper=5> olink[R]; //1:log 2:probit 3:cauchit 4:cloglog 5:identity
-  
+
 // data for auxiliary parameters
 int<lower=0> num_oaux; // total number aux params
 int<lower=0, upper=num_oaux> has_oaux[R];
