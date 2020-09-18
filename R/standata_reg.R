@@ -178,7 +178,8 @@ standata_reg <- function(object, ...) {
     has_aux = inherits(object, "epiobs_") && out$family > 1L,
     adjusted_prior_scale = out$prior_scale,
     adjusted_prior_intercept_scale = out$prior_scale_for_intercept,
-    adjusted_prior_oaux_scale = out$prior_scale_for_oaux
+    adjusted_prior_oaux_scale = out$prior_scale_for_oaux,
+    family = out$family
   )
 
   return(out)
@@ -294,7 +295,8 @@ summarize_glm_prior <-
            has_aux,
            adjusted_prior_scale,
            adjusted_prior_intercept_scale, 
-           adjusted_prior_oaux_scale) {
+           adjusted_prior_oaux_scale,
+           family) {
     rescaled_coef <-
       user_prior$prior_autoscale && 
       has_predictors &&
@@ -336,6 +338,16 @@ summarize_glm_prior <-
         user_prior_aux$prior_dist_name_for_oaux <- "student_t"
       }
     }
+    if (has_aux) {
+      if (family == 2) { # neg_binom
+        user_prior_aux$aux_name <- "reciprocal dispersion"
+      } else if (family == 3) { # quasi_poisson
+        user_prior_aux$aux_name <- "dispersion"
+      } else { # normal
+        user_prior_aux$aux_name <- "standard deviation"
+      }
+    }
+
     prior_list <- list(
       prior = 
         if (!has_predictors) NULL else with(user_prior, list(
@@ -381,7 +393,7 @@ summarize_glm_prior <-
         rate = if (!is.na(prior_dist_name_for_oaux) && 
                    prior_dist_name_for_oaux %in% "exponential")
           1 / prior_scale_for_oaux else NULL,
-        aux_name = "reciprocal dispersion"
+          aux_name = aux_name
       ))
       
     return(prior_list)
