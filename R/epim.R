@@ -377,8 +377,10 @@ make_oaux_nms <- function(obs) {
       else if (o$family == "quasi_poisson") {
         x <- "| dispersion"
       }
-      else {
+      else if (o$family == "normal"){
         x <- "|standard deviation"
+      } else {
+        x <- "|sigma"
       }
       nms <- c(nms,
       paste0(.get_obs(formula(o)), x))

@@ -343,11 +343,7 @@ plot_obs.epimodel <-
       "deepskyblue4",
       ggplot2::alpha("deepskyblue4", rev(levels) * 0.7 / 100),
       "coral4",
-<<<<<<< HEAD
-      "#0f1010"
-=======
       "darkslategray3"
->>>>>>> upstream/develop
     )
 
     if (all_in_sample) {
